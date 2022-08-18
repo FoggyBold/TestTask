@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace TestTask.Services.DataTransferObject;
 
-namespace TestTask.Services.DataTransferObject
+public class Organization
 {
-    internal class Organization
-    {
-    }
+    public int ID { get; set; }
+    public string FullName { get; set; }
+    public string ShortName { get; set; }
+    public ActivityArea ActivityArea { get; set; }
 }

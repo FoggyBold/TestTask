@@ -4,7 +4,7 @@ namespace TestTask.Services.Interfaces;
 
 public interface IActivityAreasService
 {
-    Task<IEnumerable<Organization>> GetActivityAreasAsync();
+    Task<IEnumerable<ActivityArea>> GetActivityAreasAsync();
     void DeleteAsync(int id);
-    void Put(Organization activityArea);
+    void Put(ActivityArea activityArea);
 }

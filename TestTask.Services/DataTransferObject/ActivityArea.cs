@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace TestTask.Services.DataTransferObject;
 
-namespace TestTask.Services.DataTransferObject
+public class ActivityArea
 {
-    internal class ActivityArea
-    {
-    }
+    public int ID { get; set; }
+    public string Name { get; set; }
 }
