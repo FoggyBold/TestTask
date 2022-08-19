@@ -63,41 +63,4 @@ public class OrganizationsController : Controller
         organizationsService.Delete(id);
         return RedirectToAction("Index", "Organizations");
     }
-
-    public IActionResult UpdateOrganization(int id)
-    {
-        var organization = organizationsService.GetOrganizationAsync(id).Result;
-        if (organization != null)
-        {
-            return View(organization);
-        }
-        return RedirectToAction("Index", "Organizations");
-
-    }
-
-    [HttpPost]
-    public IActionResult UpdateOrganization(OrganizationModel model)
-    {
-        if (ModelState.IsValid)
-        {
-            var activityArea = activityAreasService.GetActivityAreaAsync(model.ActivityArea).Result;
-            if (activityArea != null)
-            {
-                var organization = new Organization
-                {
-                    FullName = model.FullName,
-                    ShortName = model.ShortName,
-                    DirectorsFullName = model.DirectorsFullName,
-                    ActivityAreaId = activityArea.ID,
-                    AuthorizedCapital = model.AuthorizedCapital,
-                    INN = model.INN,
-                    KPP = model.KPP,
-                    OGRN = model.OGRN
-                };
-                organizationsService.Update(organization);
-                return RedirectToAction("Index", "Organizations");
-            }
-        }
-        return View(model);
-    }
 }
