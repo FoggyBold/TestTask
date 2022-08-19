@@ -1,0 +1,23 @@
+﻿@using TestTask.Services.DataTransferObject
+<div class="row mt-5 mb-2">
+    <table>
+        <caption>Справочник сфер деятельности</caption>
+        <tr>
+            <th>Id</th>
+            <th>Наименование</th>
+        </tr>
+        @{
+            foreach(ActivityArea activityArea in Model.ActivityAreas)
+            {
+                <tr>
+                    <th>@activityArea.ID</th>
+                    <td>@activityArea.Name</td>
+                    <td>@Html.ActionLink("Удалить", "DellActivityArea", "ActivityAreas", new {id = @activityArea.ID})</td>
+                </tr>
+            }
+        }
+    </table>
+    <p>
+        @Html.ActionLink("Добавить оргонизацию", "AddActivityArea", "ActivityAreas")
+    </p>
+</div>

@@ -1,0 +1,37 @@
+﻿@using TestTask.Services.DataTransferObject
+<div class="row mt-5 mb-2">
+    <table>
+        <caption>Справочник организаций</caption>
+        <tr>
+            <th>Id</th>
+            <th>Полное наименование</th>
+            <th>Краткое наименование</th>
+            <th>Сфера деятельности</th>
+            <th>ФИО директора</th>
+            <th>Уставной капитал</th>
+            <th>ИНН</th>
+            <th>КПП</th>
+            <th>ОГРН</th>
+        </tr>
+        @{
+            foreach(Organization organization in Model.Organizations)
+            {
+                <tr>
+                    <th>@organization.ID</th>
+                    <td>@organization.FullName</td>
+                    <td>@organization.ShortName</td>
+                    <td>@organization.ActivityAreaId</td>
+                    <td>@organization.DirectorsFullName</td>
+                    <td>@organization.AuthorizedCapital</td>
+                    <td>@organization.INN</td>
+                    <td>@organization.KPP</td>
+                    <td>@organization.OGRN</td>
+                    <td>@Html.ActionLink("Удалить", "DellOrganization", "Organizations", new {id = @organization.ID})</td>
+                </tr>
+            }
+        }
+    </table>
+    <p>
+        @Html.ActionLink("Добавить оргонизацию", "AddOrganization", "Organizations")
+    </p>
+</div>

@@ -16,7 +16,7 @@ public class OrganizationService : IOrganizationsService
         this.context = context;
     }
 
-    public async void DeleteAsync(int id)
+    public void Delete(int id)
     {
         var organization = context
             .Organizations
@@ -25,7 +25,7 @@ public class OrganizationService : IOrganizationsService
         if (organization != null)
         {
             context.Organizations.Remove(organization);
-            await context.SaveChangesAsync();
+            context.SaveChanges();
         }
     }
 
@@ -33,6 +33,7 @@ public class OrganizationService : IOrganizationsService
     {
         var organizatios = context
             .Organizations
+            .OrderBy(el => el.ActivityArea.Name)
             .AsQueryable();
 
         var data = (await organizatios.ToListAsync())
@@ -46,25 +47,45 @@ public class OrganizationService : IOrganizationsService
                 INN = organization.INN,
                 KPP = organization.KPP,
                 OGRN = organization.OGRN,
-                ActivityArea = new ActivityArea
-                {
-                    ID = organization.ActivityAreaId,
-                    Name = organization.ActivityArea.Name
-                }
+                ActivityAreaId = organization.ActivityAreaId
             });
 
        return data;
     }
 
-    public async void Put(Organization organization)
+    public void Put(Organization organization)
     {
         var newOrganization = new Data.Entities.Organization
         {
             FullName = organization.FullName,
-            ShortName = organization.ShortName
+            ShortName = organization.ShortName,
+            DirectorsFullName = organization.DirectorsFullName,
+            AuthorizedCapital = organization.AuthorizedCapital,
+            INN = organization.INN,
+            KPP = organization.KPP,
+            OGRN = organization.OGRN,
+            ActivityAreaId = organization.ActivityAreaId
         };
 
-        await context.Organizations.AddAsync(newOrganization);
-        await context.SaveChangesAsync();
+        context.Organizations.Add(newOrganization);
+        context.SaveChanges();
+    }
+
+    public async void Update(Organization organization)
+    {
+        var data = await context.Organizations.FirstOrDefaultAsync(el => el.ID == organization.ID);
+        if(data != null)
+        {
+            data.OGRN = organization.OGRN;
+            data.KPP = organization.KPP;
+            data.INN = organization.INN;
+            data.DirectorsFullName = organization.DirectorsFullName;
+            data.ActivityAreaId = organization.ActivityAreaId;
+            data.FullName = organization.FullName;
+            data.ShortName = organization.ShortName;
+            data.AuthorizedCapital = organization.AuthorizedCapital;
+
+            context.SaveChanges();
+        }
     }
 }

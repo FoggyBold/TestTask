@@ -16,7 +16,7 @@ public class ActivityAreasService : IActivityAreasService
         this.context = context;
     }
 
-    public async void DeleteAsync(int id)
+    public void Delete(int id)
     {
         var activityArea = context
             .ActivityAreas
@@ -25,34 +25,62 @@ public class ActivityAreasService : IActivityAreasService
         if (activityArea != null)
         {
             context.ActivityAreas.Remove(activityArea);
-            await context.SaveChangesAsync();
+            context.SaveChanges();
         }
+    }
+
+    public async Task<ActivityArea> GetActivityAreaAsync(string name)
+    {
+        var activityArea = await context.ActivityAreas.FirstOrDefaultAsync(el => el.Name == name);
+        if (activityArea != null)
+        {
+            return new ActivityArea
+            {
+                Name = activityArea.Name,
+                ID = activityArea.ID
+            };
+        }
+        return null;
+    }
+
+    public async Task<ActivityArea> GetActivityAreaAsync(int id)
+    {
+        var activityArea = await context.ActivityAreas.FirstOrDefaultAsync(el => el.ID == id);
+        if (activityArea != null)
+        {
+            return new ActivityArea
+            {
+                Name = activityArea.Name,
+                ID = activityArea.ID
+            };
+        }
+        return null;
     }
 
     public async Task<IEnumerable<ActivityArea>> GetActivityAreasAsync()
     {
-        var activiteAreas = context
+        var activityAreas = context
             .ActivityAreas
             .AsQueryable();
 
-        var data = (await activiteAreas.ToListAsync())
-            .Select(activiteArea => new ActivityArea
+        var data = (await activityAreas.ToListAsync())
+            .Select(activityArea => new ActivityArea
             {
-                ID = activiteArea.ID,
-                Name = activiteArea.Name
+                ID = activityArea.ID,
+                Name = activityArea.Name
             });
 
         return data;
     }
 
-    public async void Put(ActivityArea activityArea)
+    public void Put(ActivityArea activityArea)
     {
-        var newActiviteArea = new Data.Entities.ActivityArea
+        var newActivityArea = new Data.Entities.ActivityArea
         {
             Name = activityArea.Name
         };
 
-        await context.ActivityAreas.AddAsync(newActiviteArea);
-        await context.SaveChangesAsync();
+        context.ActivityAreas.Add(newActivityArea);
+        context.SaveChanges();
     }
 }
